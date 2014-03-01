@@ -1,0 +1,91 @@
+<html>
+<head>
+    <title>Suggest Products for the Users</title>
+</head>
+<body>
+    <h3>Suggest Products for the Users</h3>
+
+    Select the item to be recommended:
+    <select id="items">
+        <option value="select one from below">Select one option</option>
+  <option value="laptop">Laptop</option>
+  <option value="Mobile">Mobile</option>
+  <option value="electric cooker">Electric Cooker</option>
+  <option value="Adapter">Adapter</option>
+        <option value="router">Router</option>
+  <option value="ipod">IPod</option>
+  <option value="Kindle">Kindle</option>
+  <option value="Surface">Surface</option>
+</select>
+    <button id="search">Search</button>
+    <br/>
+    <br/>
+    <br/>
+    <div id="recommendations"> Please recommend to the user: user1
+    </div>
+</body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script>
+    function on_data(data) {
+        $('#recommendations').empty();
+        var users = data.response.docs;
+        $.each(users, function(id,title) {
+
+        var endlist = 'Please recommend to the user: '+users;
+        $('#recommendations').prepend('<div>' + endlist + '</div>');
+    }
+
+    function on_search() {
+        var query = $('#items').val();
+        if (query.length == 0) {
+            return;
+        }
+    if(query == 'laptop')
+    {
+    query='1';
+    }
+    if(query == 'Mobile')
+    {
+    query='44';
+    }
+     if(query == 'Adapter')
+    {
+    query='46';
+    }
+     if(query == 'Kindle')
+    {
+    query='54';
+    }
+     if(query == 'Surface')
+    {
+    query='32';
+    }
+     if(query == 'router')
+    {
+    query='8';
+    }
+     if(query == 'electric cooker')
+    {
+    query='11';
+    }
+     if(query == 'ipod')
+    {
+    query='7';
+    }
+    
+        var url='http://http://localhost:8983/solr/collection1_shard1_replica1/select?q=*query*&wt=json&indent=true';
+        $.getJSON(url);
+    }
+
+    function on_ready() {
+        $('#search').click(on_search);
+        $('body').keypress(function(kp) {
+            if (kp.keyCode == '13') {
+                on_search();
+            }
+        });
+    }
+
+    $(document).ready(on_ready);
+</script>
+</html>
